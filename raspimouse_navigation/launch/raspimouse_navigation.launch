@@ -1,7 +1,7 @@
 <launch>
   <!-- Arguments -->
   <!--arg name="model" default="raspimouse"/-->
-  <arg name="map_file" default="$(find pimouse_slam)/maps/my_room.yaml"/>
+  <arg name="map_file" default="$(find raspimouse_navigation)/maps/my_map.yaml"/>
   <arg name="open_rviz" default="true"/>
 
   <!-- raspimouse -->
