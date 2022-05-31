@@ -1,8 +1,6 @@
 # raspimouse_sim
 
-ROS package suite for Raspberry Pi Mouse Simulator runs on Gazebo
-
-![](https://rt-net.github.io/images/raspberry-pi-mouse/raspimouse_sim_samplemaze_animation.gif)
+ROS package suite for Raspberry Pi Mouse
 
 ## ROS Package Status
 
@@ -36,77 +34,36 @@ Download this ROS package.
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/irobo197/raspimouse_sim.git
-git clone -b melodic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+git clone https://github.com/irobo197/pimouse.git
 ```
-
-Install the dependent ROS packages.
-
-```
-cd ~/catkin_ws/src/raspimouse_sim
-rosdep install -r -y -i --from-paths raspimouse*
-```
-
 Build this package using `catkin_make`.
 
 ```
 cd ~/catkin_ws && catkin_make
 source ~/catkin_ws/devel/setup.bash
 ```
-
-## QuickStart
-
-After the installation, run the following commands.
-
-```
-roslaunch raspimouse_gazebo raspimouse_with_samplemaze.launch
-```
-
-Checkout [this page](https://github.com/rt-net/raspimouse_sim/wiki/quickstart) for details.
-
-## Screenshots
-
-### moving in sample maze
-
-```
-roslaunch raspimouse_gazebo raspimouse_with_samplemaze.launch
-```
-
-![](https://rt-net.github.io/images/raspberry-pi-mouse/raspimouse_sim_samplemaze.png)
-
-### moving with URG
-
-```
-roslaunch raspimouse_gazebo raspimouse_with_gasstand.launch
-```
-
-![](https://rt-net.github.io/images/raspberry-pi-mouse/raspimouse_sim_urg.png)
-
 ### SLAM
 
 ```
-# 1st terminal
-roslaunch raspimouse_slam raspimouse_slam.launch
-# 2nd terminal
-roslaunch raspimouse_gazebo keyboard_teleop.launch
+# robot side
+roslaunch pimouse_slam robot_side.launch
+# desktop side
+roslaunch pimouse_slam desktop_side.launch
 ```
 
+### Save map
+```
+roscd raspimouse_navigation/maps
+rosrun map_server map_saver -f my_map
+```
 ### Navigation
 
 ```
-# 1st terminal
+# robot side
+roslaunch raspimouse_navigation move_base.launch
+# desktop side
 roslaunch raspimouse_navigation raspimouse_navigation.launch
 ```
-
-### Autonomous SLAM
-```
-roslaunch raspimouse_autoslam autonomous_explorer.launch
-# or
-roslaunch raspimouse_autoslam autonomous_explorer.launch explorer:=RRT
-# or
-roslaunch raspimouse_autoslam autonomous_explorer.launch explorer:=BUG_WALLFOLLOW
-```
-
 ## License
 
 This repository is licensed under the MIT license, see [LICENSE]( ./LICENSE ).  
