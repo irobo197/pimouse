@@ -1,0 +1,16 @@
+<package format="2">
+  <name>pimouse</name>
+  <version>0.1.1</version>
+  <description>ROS package suite for Raspberry Pi Mouse</description>
+  <maintainer email="shop@rt-net.jp">RT Corporation</maintainer>
+  <author email="tvc@tvc">TVC</author>
+  <license>MIT</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>raspimouse_description</exec_depend>
+  <exec_depend>pimouse_slam</exec_depend>
+  <exec_depend>raspimouse_navigation</exec_depend>
+  <exec_depend>raspimouse_ros_2</exec_depend>
+  <export>
+    <metapackage/>
+  </export>
+</package>
