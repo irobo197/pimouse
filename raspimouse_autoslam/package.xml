@@ -71,6 +71,7 @@
   <exec_depend>tf</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>pimouse_slam</exec_depend>
+  <exec_depend>raspimouse_navigation</exec_depend>
   <!--exec_depend>raspimouse_description</exec_depend-->
 
 
