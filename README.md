@@ -64,6 +64,14 @@ roslaunch raspimouse_navigation move_base.launch
 # desktop side
 roslaunch raspimouse_navigation raspimouse_navigation.launch
 ```
+### Navigation
+
+```
+# robot side
+roslaunch pimouse_slam robot_side.launch
+# desktop side
+roslaunch raspimouse_autoslam autonomous_slam.launch
+```
 ## License
 
 This repository is licensed under the MIT license, see [LICENSE]( ./LICENSE ).  
