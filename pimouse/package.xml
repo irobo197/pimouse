@@ -10,6 +10,7 @@
   <exec_depend>pimouse_slam</exec_depend>
   <exec_depend>raspimouse_navigation</exec_depend>
   <exec_depend>raspimouse_ros_2</exec_depend>
+  <exec_depend>raspimouse_autoslam</exec_depend>
   <export>
     <metapackage/>
   </export>

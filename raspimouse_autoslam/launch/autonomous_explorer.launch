@@ -1,0 +1,12 @@
+<launch>
+  <arg name="explorer" default="RRT"/>
+
+  <!-- SLAM Node -->
+  <include file="$(find pimouse_slam)/launch/desktop_side.launch"/>
+
+  <!--move_base in robot_side-->
+
+  <!-- Autonomous Explorer Node -->
+  <include file="$(find raspimouse_autoslam)/launch/$(arg explorer).launch"/>
+
+</launch>

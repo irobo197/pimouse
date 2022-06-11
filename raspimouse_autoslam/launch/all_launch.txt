@@ -1,0 +1,15 @@
+roslaunch raspimouse_autoslam autonomous_explorer.launch
+roslaunch raspimouse_autoslam autonomous_explorer.launch explorer:=RRT
+roslaunch raspimouse_autoslam autonomous_explorer.launch explorer:=BUG_WALLFOLLOW
+roslaunch raspimouse_autoslam rrt_simple.launch
+rosrun map_server map_saver -f my_map
+
+roslaunch raspimouse_navigation raspimouse_navigation.launch
+
+
+
+
+https://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/#tuning-guide
+
+rosrun turtlebot3_example turtlebot3_server
+rosrun raspimouse_autoslam autonomous_rrt.py
