@@ -60,7 +60,7 @@ rosrun map_server map_saver -f my_map
 
 ```
 # robot side
-roslaunch raspimouse_navigation move_base.launch
+roslaunch pimouse_slam robot_side.launch
 # desktop side
 roslaunch raspimouse_navigation raspimouse_navigation.launch
 ```
