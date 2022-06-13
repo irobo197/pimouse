@@ -1,5 +1,5 @@
 <launch>
-  <include file="$(find pimouse_slam)/launch/robot_side.launch"/>
+  <!--include file="$(find pimouse_slam)/launch/robot_side.launch"/-->
   
   <!-- Arguments -->
   <arg name="cmd_vel_topic" default="/cmd_vel" />
