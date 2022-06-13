@@ -1,8 +1,6 @@
 <launch>
-  <node pkg="pimouse_slam" name="motors" type="motors.py" required="true"/>
-  <node pkg="urg_node" name="urg_node" type="urg_node" required="true" >
-        <param name="frame_id" value="base_link"/>
-  </node>
+  <include file="$(find pimouse_slam)/launch/robot_side.launch"/>
+  
   <!-- Arguments -->
   <arg name="cmd_vel_topic" default="/cmd_vel" />
   <arg name="odom_topic" default="odom" />
