@@ -5,7 +5,7 @@
   <include file="$(find pimouse_slam)/launch/desktop_side.launch"/>
 
   <!--move_base in robot_side-->
-  <include file="$(find raspimouse_navigation)/launch/move_base.launch"/>
+  <!--include file="$(find raspimouse_navigation)/launch/move_base.launch"/-->
   <!-- Autonomous Explorer Node -->
   <include file="$(find raspimouse_autoslam)/launch/$(arg explorer).launch"/>
 
