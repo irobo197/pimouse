@@ -68,7 +68,7 @@ roslaunch raspimouse_navigation raspimouse_navigation.launch
 
 ```
 # robot side
-roslaunch pimouse_slam robot_side.launch
+roslaunch raspimouse_navigation move_base.launch
 # desktop side
 roslaunch raspimouse_autoslam autonomous_slam.launch
 ```
