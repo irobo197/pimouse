@@ -8,8 +8,9 @@ from geometry_msgs.msg import PoseStamped
 from numpy import floor
 from numpy.linalg import norm
 from numpy import inf
+# ________________________________________________________________________________
 
-#----------------------------------------------------------------------------------------------------
+
 class robot:
     goal = MoveBaseGoal()
     start = PoseStamped()
@@ -18,7 +19,7 @@ class robot:
     def __init__(self, name):
         self.assigned_point = []
         self.name = name
-        self.global_frame = rospy.get_param('~global_frame', 'map')
+        self.global_frame = rospy.get_param('~global_frame', '/map')
         self.robot_frame = rospy.get_param('~robot_frame', 'base_link')
         self.plan_service = rospy.get_param(
             '~plan_service', '/move_base/NavfnROS/make_plan')
@@ -30,17 +31,19 @@ class robot:
             try:
                 rospy.loginfo('Waiting for the robot transform')
                 (trans, rot) = self.listener.lookupTransform(
-                    self.global_frame, '/'+self.robot_frame, rospy.Time(0))
+                    self.global_frame, self.name+'/'+self.robot_frame, rospy.Time(0))
                 cond = 1
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
                 cond == 0
         self.position = array([trans[0], trans[1]])
         self.assigned_point = self.position
-        self.client = actionlib.SimpleActionClient('/move_base', MoveBaseAction)
+        self.client = actionlib.SimpleActionClient(
+            self.name+'/move_base', MoveBaseAction)
         self.client.wait_for_server()
-        robot.goal.target_pose.header.frame_id = "map"
+        robot.goal.target_pose.header.frame_id = self.global_frame
         robot.goal.target_pose.header.stamp = rospy.Time.now()
-        rospy.wait_for_service(self.plan_service)
+
+        rospy.wait_for_service(self.name+self.plan_service)
         self.make_plan = rospy.ServiceProxy(
             self.name+self.plan_service, GetPlan)
         robot.start.header.frame_id = self.global_frame
@@ -77,29 +80,33 @@ class robot:
         robot.start.pose.position.y = start[1]
         robot.end.pose.position.x = end[0]
         robot.end.pose.position.y = end[1]
-        start = self.listener.transformPose(self.name+'map', robot.start)
-        end = self.listener.transformPose(self.name+'map', robot.end)
+        start = self.listener.transformPose(self.name+'/map', robot.start)
+        end = self.listener.transformPose(self.name+'/map', robot.end)
         plan = self.make_plan(start=start, goal=end, tolerance=0.0)
         return plan.plan.poses
+# ________________________________________________________________________________
 
-# --------------------------------------------------------------------------------
+
 def index_of_point(mapData, Xp):
     resolution = mapData.info.resolution
     Xstartx = mapData.info.origin.position.x
     Xstarty = mapData.info.origin.position.y
     width = mapData.info.width
+    Data = mapData.data
     index = int(	(floor((Xp[1]-Xstarty)/resolution) *
                   width)+(floor((Xp[0]-Xstartx)/resolution)))
     return index
 
+
 def point_of_index(mapData, i):
     y = mapData.info.origin.position.y + \
-        (i//mapData.info.width)*mapData.info.resolution
+        (i/mapData.info.width)*mapData.info.resolution
     x = mapData.info.origin.position.x + \
-        (i-(i//mapData.info.width)*(mapData.info.width))*mapData.info.resolution
+        (i-(i/mapData.info.width)*(mapData.info.width))*mapData.info.resolution
     return array([x, y])
+# ________________________________________________________________________________
 
-#---------------------------------------------------------------------------------
+
 def informationGain(mapData, point, r):
     infoGain = 0
     index = index_of_point(mapData, point)
@@ -114,8 +121,9 @@ def informationGain(mapData, point, r):
                 if(mapData.data[i] == -1 and norm(array(point)-point_of_index(mapData, i)) <= r):
                     infoGain += 1
     return infoGain*(mapData.info.resolution**2)
+# ________________________________________________________________________________
 
-#---------------------------------------------------------------------------------
+
 def discount(mapData, assigned_pt, centroids, infoGain, r):
     index = index_of_point(mapData, assigned_pt)
     r_region = int(r/mapData.info.resolution)
@@ -132,8 +140,9 @@ def discount(mapData, assigned_pt, centroids, infoGain, r):
                         # this should be modified, subtract the area of a cell, not 1
                         infoGain[j] -= 1
     return infoGain
+# ________________________________________________________________________________
 
-#--------------------------------------------------------------------------------
+
 def pathCost(path):
     if (len(path) > 0):
         i = len(path)/2
@@ -142,8 +151,9 @@ def pathCost(path):
         return norm(p1-p2)*(len(path)-1)
     else:
         return inf
+# ________________________________________________________________________________
 
-#--------------------------------------------------------------------------------
+
 def unvalid(mapData, pt):
     index = index_of_point(mapData, pt)
     r_region = 5
@@ -157,8 +167,9 @@ def unvalid(mapData, pt):
                 if(mapData.data[i] == 1):
                     return True
     return False
+# ________________________________________________________________________________
 
-#-------------------------------------------------------------------------------
+
 def Nearest(V, x):
     n = inf
     i = 0
@@ -169,17 +180,21 @@ def Nearest(V, x):
             result = i
     return result
 
-#------------------------------------------------------------------------------
+# ________________________________________________________________________________
+
+
 def Nearest2(V, x):
     n = inf
+    result = 0
     for i in range(0, len(V)):
         n1 = norm(V[i]-x)
 
         if (n1 < n):
             n = n1
     return i
+# ________________________________________________________________________________
 
-#-----------------------------------------------------------------------------
+
 def gridValue(mapData, Xp):
     resolution = mapData.info.resolution
     Xstartx = mapData.info.origin.position.x

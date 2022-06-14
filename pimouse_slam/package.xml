@@ -13,4 +13,5 @@
   <run_depend>gmapping</run_depend>
   <run_depend>raspimouse_ros_2</run_depend>
   <run_depend>urg_node</run_depend>
+  <run_depend>raspimouse_description</run_depend>
 </package>

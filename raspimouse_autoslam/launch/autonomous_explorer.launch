@@ -1,6 +1,8 @@
 <launch>
   <arg name="explorer" default="RRT"/>
 
+  <!--Display URDF-->
+  <include file="$(find raspimouse_description)/launch/display_urdf.launch"/>
   <!-- SLAM Node -->
   <include file="$(find pimouse_slam)/launch/desktop_side.launch"/>
 
